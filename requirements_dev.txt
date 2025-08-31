@@ -1,0 +1,27 @@
+# Dev
+pip
+bumpversion
+pytest
+build
+twine
+pyyaml
+pymongo
+runscript
+coverage
+pytest-cov
+pytest-xdist
+rich
+msgspec
+gunicorn
+inotify
+multidict
+urllib3[socks]
+
+# types
+types-pyyaml
+
+# Code Quality
+ruff
+mypy[faster-cache]>=1.12
+pylint
+black
