@@ -7,33 +7,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest, windows-latest]
         python: ['2.7']
     steps:
 
     - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python }}
-      run: | 
-        #uses: LizardByte/actions/actions/setup_python@master
-        #with:
-        #  python-version: ${{ matrix.python }}
-        echo "macOS version >= 13, relinking python@3.12 to avoid brew error"
-        brew unlink python@3.12
-        brew link --overwrite python@3.12
-        brew install pyenv
-        export PATH="$(pyenv root)/shims:$(pyenv root)/bin:$PATH"
-        brew install zlib
-        export LDFLAGS="-L/usr/local/opt/zlib/lib"
-        export CPPFLAGS="-I/usr/local/opt/zlib/include"
-        pyenv install 2.7.18
-        pyenv global 2.7.18
-        which pyenv
-        echo $PATH
+      uses: LizardByte/actions/actions/setup_python@master
+      with:
+        python-version: ${{ matrix.python }}
 
     - name: Run tests
       run: |
-        echo $PATH
-        export PATH="$(pyenv root)/shims:$(pyenv root)/bin:$PATH"
-        python -V
         python -c 'print("Hello world!")'
