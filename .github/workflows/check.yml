@@ -27,6 +27,7 @@ jobs:
         export LDFLAGS="-L/usr/local/opt/zlib/lib"
         export CPPFLAGS="-I/usr/local/opt/zlib/include"
         pyenv install 2.7.18
+        pyenv global 2.7.18
 
     - name: Run tests
       run: |
