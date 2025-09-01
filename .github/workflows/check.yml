@@ -11,15 +11,12 @@ jobs:
         python: ['2.7']
     steps:
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python }}
-      uses: MatteoH2O1999/setup-python@v6
+      uses: LizardByte/actions/actions/setup_python@master
       with:
         python-version: ${{ matrix.python }}
-        allow-build: info
-        cache-build: true
-        cache: pip
 
     - name: Run tests
       run: |
