@@ -31,5 +31,6 @@ jobs:
 
     - name: Run tests
       run: |
+        export PATH="$(pyenv root)/shims:$(pyenv root)/bin:$PATH"
         python -V
         python -c 'print("Hello world!")'
