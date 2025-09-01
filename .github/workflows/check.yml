@@ -28,9 +28,12 @@ jobs:
         export CPPFLAGS="-I/usr/local/opt/zlib/include"
         pyenv install 2.7.18
         pyenv global 2.7.18
+        which pyenv
+        echo $PATH
 
     - name: Run tests
       run: |
+        echo $PATH
         export PATH="$(pyenv root)/shims:$(pyenv root)/bin:$PATH"
         python -V
         python -c 'print("Hello world!")'
