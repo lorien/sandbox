@@ -13,14 +13,14 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Install python {{ matrix.python }} with LisardByte/setup_python action
-      if: ${{ matrix.python <= 2.17 }}
+    - name: Install python ${{ matrix.python }} with LisardByte/setup_python action
+      if: matrix.python <= 2.17
       uses: LizardByte/actions/actions/setup_python@master
       with:
         python-version: ${{ matrix.python }}
 
-    - name: Install python {{ matrix.python }} with standard setup-python action
-      if: ${{ matrix.python > 2.17 }}
+    - name: Install python ${{ matrix.python }} with standard setup-python action
+      if: matrix.python > 2.17
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
