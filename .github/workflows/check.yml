@@ -36,7 +36,7 @@ jobs:
         tree /F
         mv sandbox backup_sandbox
         cd dist
-        pip install *.whl
+        python -m pip install *.whl
 
     - name: Run tests
       run: |
