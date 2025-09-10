@@ -32,6 +32,7 @@ jobs:
         pip install -U setuptools wheel build
         mkdir dist
         make build
+        tree /F
         mv sandbox backup_sandbox
         pip install dist/*.whl
 
