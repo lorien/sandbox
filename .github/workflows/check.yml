@@ -35,8 +35,8 @@ jobs:
         make build
         tree /F
         mv sandbox backup_sandbox
-        cd dist
-        python -m pip install *.whl
+        mv dist/*.whl dist/test.whl
+        python -m pip install dist/test.whl
 
     - name: Run tests
       run: |
