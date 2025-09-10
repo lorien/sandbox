@@ -27,7 +27,16 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
+    - name: Build wheel and install
+      run: |
+        pip install -U setuptools wheel
+        mkdir -p dist
+        rm -rf dist/*
+        make build
+        mv sandbox backup_sandbox
+        pip install dist/*.whl
+
     - name: Run tests
       run: |
         python -V
-        python -c 'print("Hello world!")'
+        python test.py
