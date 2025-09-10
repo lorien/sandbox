@@ -31,7 +31,6 @@ jobs:
     - name: Build wheel and install
       run: |
         pip install -U setuptools wheel build
-        mkdir dist
         make build
         mv sandbox backup_sandbox
         mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
