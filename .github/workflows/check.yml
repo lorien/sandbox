@@ -30,8 +30,7 @@ jobs:
     - name: Build wheel and install
       run: |
         pip install -U setuptools wheel build
-        mkdir -p dist
-        rm -rf dist/*
+        mkdir dist
         make build
         mv sandbox backup_sandbox
         pip install dist/*.whl
