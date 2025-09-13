@@ -1,5 +1,4 @@
 # Dev
-pip
 bumpversion
 pytest
 build
