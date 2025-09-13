@@ -34,7 +34,7 @@ jobs:
         make build
         mv sandbox backup_sandbox
         mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
-        pip install "sandbox @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
+        pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
 
     - name: Run tests
       run: |

@@ -31,6 +31,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+pyquery = ['six']
+
 [project.urls]
 
 [build-system]
