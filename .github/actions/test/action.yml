@@ -41,7 +41,7 @@ runs:
         pytest
 
     - name: Run non-database tests
-      if: !inputs.database_enabled
+      if: ${{ !inputs.database_enabled }}
       shell: bash
       run: |
         pytest -k integrity
