@@ -27,7 +27,7 @@ runs:
         pip install -r requirements_dev.txt
 
     - name: Install database deps
-      if: ${{ !inputs.database_enabled }}
+      if: ${{ inputs.database_enabled }}
       shell: bash
       run: |
         pip install -r requirements_dev_database.txt
