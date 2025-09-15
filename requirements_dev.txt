@@ -3,24 +3,17 @@ bumpversion
 pytest
 build
 twine
-pyyaml
-pymongo
-runscript
 coverage
 pytest-cov
 pytest-xdist
-rich
-msgspec
-gunicorn
-inotify
-multidict
-urllib3[socks]
+pkginfo
+setuptools
+wheel
 
-# types
-types-pyyaml
+# db 
+# pymongo
 
 # Code Quality
-ruff
-mypy[faster-cache]>=1.12
-pylint
-black
+ruff; python_version >= "3.0"
+mypy[faster-cache]>=1.12; python_version >= "3.0"
+pylint; python_version >= "3.0"

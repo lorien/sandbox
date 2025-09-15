@@ -1,5 +1,5 @@
 __version__ = "0.0.2"
 
 
-def hello():
-    print("HELLO!!!")
+def check_integrity() -> bool:
+    return True

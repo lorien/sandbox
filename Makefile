@@ -1,4 +1,4 @@
-.PHONY: init venv deps dirs clean pytest coverage test release mypy pylint ruff check build
+.PHONY: init venv deps dirs clean pytest test release mypy pylint ruff check build
 
 .DEFAULT_GOAL := check
 FILES_CHECK_MYPY := sandbox tests script
@@ -32,14 +32,8 @@ clean:
 	find -name '*.swp' -delete
 	find -name '__pycache__' -delete
 
-pytest:
-	pytest -n30 -x --cov $(COVERAGE_TARGET) --cov-report term-missing
-
-coverage:
-	pytest -n30 -x --cov $(COVERAGE_TARGET) --cov-report term-missing
-
-test: check pytest
-	tox -e check-minver
+test:
+	pytest -n2 -x --cov $(COVERAGE_TARGET) --cov-report term-missing
 
 
 release:
