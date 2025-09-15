@@ -16,7 +16,7 @@ def test_redis() -> None:
 def test_mysql() -> None:
     from MySQLdb import connect
 
-    conn = connect(host="localhost", user="root", passwd="", db="grab_test")
+    conn = connect(host="localhost", port=3306, user="root", passwd="", db="grab_test")
     cur = conn.cursor()
     cur.execute("SHOW TABLES")
     print("Tables:")
@@ -31,6 +31,7 @@ def test_postgres() -> None:
 
     conn = psycopg2.connect(
         host="localhost",
+        port=5432,
         dbname="grab_test",
     )
 
