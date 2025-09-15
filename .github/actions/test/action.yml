@@ -22,10 +22,12 @@ runs:
         python-version: ${{ matrix.python }}
 
     - name: Install database deps
+      shell: bash
       run: |
         pip install -r requirements_dev.txt
 
     - name: Build wheel and install
+      shell: bash
       run: |
         make build
         mv sandbox backup_sandbox
@@ -34,10 +36,12 @@ runs:
 
     - name: Run full tests
       if: inputs.database_enabled
+      shell: bash
       run: |
         pytest
 
     - name: Run non-database tests
       if: ! inputs.database_enabled
+      shell: bash
       run: |
         pytest -k integrity
