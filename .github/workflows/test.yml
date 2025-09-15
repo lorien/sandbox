@@ -5,14 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [2.7, 3.11, 3.12, 3.13]
+        python: [2.7, 3.10, 3.11, 3.12, 3.13]
     steps:
       - uses: actions/checkout@v4
       - if: ${{ matrix.python == 2.7 }} 
         uses: LizardByte/actions/actions/setup_python@master
         with:
           python-version: ${{ matrix.python }}
-      - if: ${{ matrix.python) != 2.7 }}
+      - if: ${{ matrix.python != 2.7 }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ inputs.python }}
