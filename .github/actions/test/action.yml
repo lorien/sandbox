@@ -40,7 +40,9 @@ runs:
     - name: Build wheel and install
       shell: pwsh
       run: |
-        make build
+        rm -rf *.egg-info
+        rm -rf dist/*
+        python -m build --no-isolation
         mv sandbox backup_sandbox
         mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
         pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
