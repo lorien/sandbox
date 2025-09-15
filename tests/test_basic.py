@@ -24,3 +24,20 @@ def test_mysql() -> None:
         print(row)
     cur.close()
     conn.close()
+
+
+def test_postgres() -> None:
+    import psycopg2
+
+    conn = psycopg2.connect(
+        dbname="grab_test",
+    )
+
+    cur = conn.cursor()
+    cur.execute("SELECT tablename FROM pg_tables WHERE schemaname='public';")
+
+    for row in cur.fetchall():
+        print(row[0])
+
+    cur.close()
+    conn.close()
