@@ -1,8 +1,10 @@
 name: test-action
 inputs:
   python:
+    type: number
     required: true
   database_enabled:
+    type: boolean
     required: true
 runs:
   using: "composite"
@@ -27,7 +29,7 @@ runs:
         pip install -r requirements_dev.txt
 
     - name: Install database deps
-      if: ${{ inputs.database_enabled }}
+      if: inputs.database_enabled
       shell: bash
       run: |
         pip install -r requirements_dev_database.txt
@@ -41,13 +43,13 @@ runs:
         pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
 
     - name: Run full tests
-      if: ${{ inputs.database_enabled }}
+      if: inputs.database_enabled
       shell: bash
       run: |
         pytest
 
     - name: Run non-database tests
-      if: ${{ !inputs.database_enabled }}
+      if: !inputs.database_enabled
       shell: bash
       run: |
         pytest -k integrity
