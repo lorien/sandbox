@@ -9,19 +9,34 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - shell: bash
+      run: |
+        echo "inputs.python: ${{ inputs.python }}"
+        echo "inputs.database_enabled: ${{ inputs.database_enabled }}"
+
+    - shell: bash
+      if: ${{ inputs.database_enabled }}
+      run: |
+        echo "Input database_enabled is true"
+
+    - shell: bash
+      if: ${{ !inputs.database_enabled }}
+      run: |
+        echo "Input database_enabled is false"
+
     - uses: actions/checkout@v4
 
-    - name: Install python ${{ matrix.python }} with LisardByte/setup_python action
+    - name: Install python ${{ inputs.python }} with LisardByte/setup_python action
       if: ${{ inputs.python <= 2.7 }}
       uses: LizardByte/actions/actions/setup_python@master
       with:
-        python-version: ${{ matrix.python }}
+        python-version: ${{ inputs.python }}
 
-    - name: Install python ${{ matrix.python }} with standard setup-python action
+    - name: Install python ${{ inputs.python }} with standard setup-python action
       if: ${{ inputs.python > 2.7 }}
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python }}
+        python-version: ${{ inputs.python }}
 
     - name: Install deps
       shell: bash
