@@ -50,7 +50,7 @@ runs:
         pip install -r requirements_dev_database.txt
 
     - name: Build wheel and install
-      shell: bash
+      shell: pwsh
       run: |
         make build
         echo "@@ AFTER BUILD"
