@@ -5,14 +5,8 @@ on: ["push", "pull_request"]
 # test
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        #os: [windows-latest]
-        #python: [2.7, 3.13]
-        python: [3.13]
+  database:
+    runs-on: ubuntu-latest
     services:
       redis:
         image: redis:7.2
@@ -22,34 +16,49 @@ jobs:
           --health-cmd "redis-cli ping"
           --health-interval 5s
           --health-timeout 2s
-          --health-retries 5 
+          --health-retries 5
+  build:
+    needs: database
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # os: [windows-latest]
+        # python: [2.7, 3.13]
+        python: [3.13]
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install python ${{ matrix.python }} with LisardByte/setup_python action
-      if: matrix.python <= 2.7
-      uses: LizardByte/actions/actions/setup_python@master
-      with:
-        python-version: ${{ matrix.python }}
+      - name: Install python ${{ matrix.python }} with LisardByte/setup_python action
+        if: matrix.python <= 2.7
+        uses: LizardByte/actions/actions/setup_python@master
+        with:
+          python-version: ${{ matrix.python }}
 
-    - name: Install python ${{ matrix.python }} with standard setup-python action
-      if: matrix.python > 2.7
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python }}
+      - name: Install python ${{ matrix.python }} with standard setup-python action
+        if: matrix.python > 2.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
 
-    - name: Install database deps
-      run: |
-        pip install -r requirements_dev.txt
+      - name: Install database deps
+        run: |
+          pip install -r requirements_dev.txt
 
-    - name: Build wheel and install
-      run: |
-        make build
-        mv sandbox backup_sandbox
-        mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
-        pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
+      - name: Build wheel and install
+        run: |
+          make build
+          mv sandbox backup_sandbox
+          mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
+          pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
 
 
-    - name: Run tests
-      run: |
-        make test
+      - name: Run full tests
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          pytest
+
+      - name: Run non-database tests
+        if: matrix.os == 'windows-latest'
+        run: |
+          pytest -k integrity

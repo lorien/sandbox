@@ -17,3 +17,4 @@ wheel
 ruff; python_version >= "3.0"
 mypy[faster-cache]>=1.12; python_version >= "3.0"
 pylint; python_version >= "3.0"
+yamllint; python_version >= "3.0"

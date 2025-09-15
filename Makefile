@@ -57,3 +57,6 @@ build:
 	rm -rf *.egg-info
 	rm -rf dist/*
 	python -m build
+
+yaml:
+	yamllint .github

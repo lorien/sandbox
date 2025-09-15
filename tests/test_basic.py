@@ -3,7 +3,7 @@ from redis import StrictRedis
 import sandbox
 
 
-def test_module() -> None:
+def test_integrity() -> None:
     assert sandbox.check_integrity()
 
 
