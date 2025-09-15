@@ -11,29 +11,29 @@ runs:
   steps:
     - shell: bash
       run: |
-        echo "inputs.python: ${{ inputs.python }}"
-        echo "inputs.database_enabled: ${{ inputs.database_enabled }}"
+        echo "inputs.python: ${{ fromJSON(inputs.python) }}"
+        echo "inputs.database_enabled: ${{ fromJSON(inputs.database_enabled) }}"
 
     - shell: bash
-      if: ${{ inputs.database_enabled }}
+      if: ${{ fromJSON(inputs.database_enabled) }}
       run: |
         echo "Input database_enabled is true"
 
     - shell: bash
-      if: ${{ !inputs.database_enabled }}
+      if: ${{ !fromJSON(inputs.database_enabled) }}
       run: |
         echo "Input database_enabled is false"
 
     - uses: actions/checkout@v4
 
     - name: Install python ${{ inputs.python }} with LisardByte/setup_python action
-      if: ${{ inputs.python <= 2.7 }}
+      if: ${{ fromJSON(inputs.python) <= 2.7 }}
       uses: LizardByte/actions/actions/setup_python@master
       with:
         python-version: ${{ inputs.python }}
 
     - name: Install python ${{ inputs.python }} with standard setup-python action
-      if: ${{ inputs.python > 2.7 }}
+      if: ${{ fromJSON(inputs.python) > 2.7 }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python }}
@@ -44,7 +44,7 @@ runs:
         pip install -r requirements_dev.txt
 
     - name: Install database deps
-      if: ${{ inputs.database_enabled }}
+      if: ${{ fromJSON(inputs.database_enabled) }}
       shell: bash
       run: |
         pip install -r requirements_dev_database.txt
@@ -58,13 +58,13 @@ runs:
         pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
 
     - name: Run full tests
-      if: ${{ inputs.database_enabled }}
+      if: ${{ fromJSON(inputs.database_enabled) }}
       shell: bash
       run: |
         pytest
 
     - name: Run non-database tests
-      if: ${{ ! inputs.database_enabled }}
+      if: ${{ ! fromJSON(inputs.database_enabled) }}
       shell: bash
       run: |
         pytest -k integrity
