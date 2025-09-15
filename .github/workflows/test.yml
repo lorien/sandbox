@@ -1,0 +1,37 @@
+name: Linters
+on: ["push", "pull_request"]
+jobs:
+  with-database:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.13]
+    services:
+      redis:
+        image: redis:7.2
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 2s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/test.yml
+        with:
+          python: ${{ matrix.python }}
+          database_enabled: true
+
+  without-database:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: [3.13]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/test.yml
+        with:
+          python: ${{ matrix.python }}
+          database_enabled: false

@@ -1,0 +1,43 @@
+name: test-action
+inputs:
+  python:
+    required: true
+  database_enabled:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Install python ${{ matrix.python }} with LisardByte/setup_python action
+      if: inputs.python <= 2.7
+      uses: LizardByte/actions/actions/setup_python@master
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Install python ${{ matrix.python }} with standard setup-python action
+      if: inputs.python > 2.7
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Install database deps
+      run: |
+        pip install -r requirements_dev.txt
+
+    - name: Build wheel and install
+      run: |
+        make build
+        mv sandbox backup_sandbox
+        mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
+        pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
+
+    - name: Run full tests
+      if: inputs.database_enabled
+      run: |
+        pytest
+
+    - name: Run non-database tests
+      if: ! inputs.database_enabled
+      run: |
+        pytest -k integrity
