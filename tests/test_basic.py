@@ -45,3 +45,14 @@ def test_postgres() -> None:
 
     cur.close()
     conn.close()
+
+
+def test_mongodb() -> None:
+    from pymongo import MongoClient
+
+    conn = MongoClient()
+
+    for item in conn["grab_test"].list_collections():
+        print(item)
+
+    conn.close()

@@ -44,6 +44,24 @@ jobs:
       - run: |
           pip install pytest psycopg2-binary
           pytest -k postgres
+
+  mongodb:
+    runs-on: ubuntu-latest
+    services:
+          mongodb:
+            image: mongo:7.0
+            ports:
+              - 27017:27017
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          until nc -z localhost 27017; do
+            echo "Waiting for MongoDB..."
+            sleep 1
+          done
+      - run: |
+          pip install pytest pymongo
+          pytest -k mongodb
 #  with-db:
 #    runs-on: ubuntu-latest
 #    strategy:
