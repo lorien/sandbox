@@ -18,7 +18,7 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/test.yml
+      - uses: ./.github/actions/test
         with:
           python: ${{ matrix.python }}
           database_enabled: true
@@ -31,7 +31,7 @@ jobs:
         python: [3.13]
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/test.yml
+      - uses: ./.github/actions/test
         with:
           python: ${{ matrix.python }}
           database_enabled: false
