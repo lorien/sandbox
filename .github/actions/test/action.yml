@@ -24,8 +24,6 @@ runs:
       run: |
         echo "Input database_enabled is false"
 
-    - uses: actions/checkout@v4
-
     - name: Install python ${{ inputs.python }} with LisardByte/setup_python action
       if: ${{ fromJSON(inputs.python) <= 2.7 }}
       uses: LizardByte/actions/actions/setup_python@master
@@ -37,6 +35,11 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python }}
+
+    - name: Install lxml
+      shell: bash
+      run: |
+        pip install lxml
 
     - name: Install deps
       shell: bash
