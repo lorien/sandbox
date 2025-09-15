@@ -1,7 +1,7 @@
 name: Linters
 on: ["push", "pull_request"]
 jobs:
-  with-database:
+  with-db:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,7 +23,7 @@ jobs:
           python: ${{ matrix.python }}
           database_enabled: true
 
-  without-database:
+  without-db:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
