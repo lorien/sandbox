@@ -1,11 +1,11 @@
 import sandbox
 
 
-def test_integrity() -> None:
+def test_integrity():
     assert sandbox.check_integrity()
 
 
-def test_redis() -> None:
+def test_redis():
     from redis import StrictRedis
 
     red = StrictRedis(decode_responses=True)
@@ -13,7 +13,7 @@ def test_redis() -> None:
     assert red.get("foo") == "bar"
 
 
-def test_mysql() -> None:
+def test_mysql():
     from MySQLdb import connect
 
     conn = connect(
@@ -32,7 +32,7 @@ def test_mysql() -> None:
     conn.close()
 
 
-def test_postgres() -> None:
+def test_postgres():
     import psycopg2
 
     conn = psycopg2.connect(
@@ -53,7 +53,7 @@ def test_postgres() -> None:
     conn.close()
 
 
-def test_mongodb() -> None:
+def test_mongodb():
     from pymongo import MongoClient
 
     conn = MongoClient()
