@@ -1,38 +1,58 @@
 name: Linters
 on: ["push", "pull_request"]
 jobs:
-  #with-db:
-  #  runs-on: ubuntu-latest
-  #  strategy:
-  #    matrix:
-  #      python: [3.13]
-  #  services:
-  #    redis:
-  #      image: redis:7.2
-  #      ports:
-  #        - 6379:6379
-  #      options: >-
-  #        --health-cmd "redis-cli ping"
-  #        --health-interval 5s
-  #        --health-timeout 2s
-  #        --health-retries 5
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    - uses: ./.github/actions/test
-  #      with:
-  #        python: ${{ matrix.python }}
-  #        database_enabled: true
-
-  without-db:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        #os: [ubuntu-latest, windows-latest]
-        os: [windows-latest]
-        python: [3.13]
+  mysql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          # same config must be in test_settings.py
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: grab_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot -prootpassword"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=10
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/test
-        with:
-          python: ${{ matrix.python }}
-          database_enabled: false
+      - run: |
+          pip install pytest mysqlclient
+          pytest -k mysql
+#  with-db:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        python: [3.13]
+#    services:
+#      redis:
+#        image: redis:7.2
+#        ports:
+#          - 6379:6379
+#        options: >-
+#          --health-cmd "redis-cli ping"
+#          --health-interval 5s
+#          --health-timeout 2s
+#          --health-retries 5
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/test
+#        with:
+#          python: ${{ matrix.python }}
+#          database_enabled: true
+#
+#  without-db:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        #os: [ubuntu-latest, windows-latest]
+#        os: [windows-latest]
+#        python: [3.13]
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/test
+#        with:
+#          python: ${{ matrix.python }}
+#          database_enabled: false
