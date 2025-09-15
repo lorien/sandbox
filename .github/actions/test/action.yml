@@ -41,7 +41,7 @@ runs:
         pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
 
     - name: Run full tests
-      if: inputs.database_enabled
+      if: ${{ inputs.database_enabled }}
       shell: bash
       run: |
         pytest
