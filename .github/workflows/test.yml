@@ -15,7 +15,7 @@ jobs:
       - if: ${{ matrix.python != '2.7' }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ inputs.python }}
+          python-version: ${{ matrix.python }}
       - run: |
           python -V
 
