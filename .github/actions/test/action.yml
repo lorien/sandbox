@@ -29,7 +29,7 @@ runs:
     - name: Install deps
       shell: bash
       run: |
-        pip install -r requirements_dev.txt
+        pip install -U -r requirements_dev.txt
 
     - name: Install database deps
       if: ${{ fromJSON(inputs.database_enabled) }}
@@ -40,9 +40,7 @@ runs:
     - name: Build wheel and install
       shell: pwsh
       run: |
-        rm -rf *.egg-info
-        rm -rf dist/*
-        python -m build --no-isolation
+        make build
         mv sandbox backup_sandbox
         mv dist/*.whl dist/sandbox-0.0.1-py2.py3-none-any.whl
         pip install -U "sandbox[pyquery] @ file://$(pwd)/dist/sandbox-0.0.1-py2.py3-none-any.whl"
