@@ -1,67 +1,82 @@
 name: Linters
 on: ["push", "pull_request"]
 jobs:
-  mysql:
+  test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          # same config must be in test_settings.py
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: grab_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -uroot -prootpassword"
-          --health-interval=5s
-          --health-timeout=2s
-          --health-retries=10
+    strategy:
+      matrix:
+        python: ['2.7', '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
+      - uses: LizardByte/actions/actions/setup_python@master
+        with:
+          python-version: ${{ matrix.python }}
       - run: |
-          pip install pytest mysqlclient
-          pytest -k mysql
+          python -V
 
-  postgres:
-    runs-on: ubuntu-latest
-    services:
-          postgres:
-            image: postgres:16
-            env:
-              POSTGRES_USER: github
-              POSTGRES_PASSWORD: github
-              POSTGRES_DB: grab_test
-            ports:
-              - 5432:5432
-            options: >-
-              --health-cmd "pg_isready -U testuser"
-              --health-interval 5s
-              --health-timeout 2s
-              --health-retries 10
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          pip install pytest psycopg2-binary
-          pytest -k postgres
-
-  mongodb:
-    runs-on: ubuntu-latest
-    services:
-          mongodb:
-            image: mongo:7.0
-            ports:
-              - 27017:27017
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          until nc -z localhost 27017; do
-            echo "Waiting for MongoDB..."
-            sleep 1
-          done
-      - run: |
-          pip install pytest pymongo
-          pytest -k mongodb
+# ITERATION 1
+#  mysql:
+#    runs-on: ubuntu-latest
+#    services:
+#      mysql:
+#        image: mysql:8.0
+#        env:
+#          # same config must be in test_settings.py
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#          MYSQL_DATABASE: grab_test
+#        ports:
+#          - 3306:3306
+#        options: >-
+#          --health-cmd="mysqladmin ping -uroot -prootpassword"
+#          --health-interval=5s
+#          --health-timeout=2s
+#          --health-retries=10
+#    steps:
+#      - uses: actions/checkout@v4
+#      - run: |
+#          pip install pytest mysqlclient
+#          pytest -k mysql
+#
+#  postgres:
+#    runs-on: ubuntu-latest
+#    services:
+#          postgres:
+#            image: postgres:16
+#            env:
+#              POSTGRES_USER: github
+#              POSTGRES_PASSWORD: github
+#              POSTGRES_DB: grab_test
+#            ports:
+#              - 5432:5432
+#            options: >-
+#              --health-cmd "pg_isready -U testuser"
+#              --health-interval 5s
+#              --health-timeout 2s
+#              --health-retries 10
+#    steps:
+#      - uses: actions/checkout@v4
+#      - run: |
+#          pip install pytest psycopg2-binary
+#          pytest -k postgres
+#
+#  mongodb:
+#    runs-on: ubuntu-latest
+#    services:
+#          mongodb:
+#            image: mongo:7.0
+#            ports:
+#              - 27017:27017
+#    steps:
+#      - uses: actions/checkout@v4
+#      - run: |
+#          until nc -z localhost 27017; do
+#            echo "Waiting for MongoDB..."
+#            sleep 1
+#          done
+#      - run: |
+#          pip install pytest pymongo
+#          pytest -k mongodb
+# ITERATION 0
 #  with-db:
 #    runs-on: ubuntu-latest
 #    strategy:
