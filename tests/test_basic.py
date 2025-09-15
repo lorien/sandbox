@@ -1,5 +1,3 @@
-from redis import StrictRedis
-
 import sandbox
 
 
@@ -8,6 +6,8 @@ def test_integrity() -> None:
 
 
 def test_redis() -> None:
+    from redis import StrictRedis
+
     red = StrictRedis(decode_responses=True)
     red.set("foo", "bar")
     assert red.get("foo") == "bar"
