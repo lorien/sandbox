@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Install python ${{ inputs.python }} with LisardByte/setup_python action
-      if: ${{ inputs.python = '2.7' }}
+      if: ${{ inputs.python == '2.7' }}
       uses: LizardByte/actions/actions/setup_python@master
       with:
         python-version: ${{ inputs.python }}
