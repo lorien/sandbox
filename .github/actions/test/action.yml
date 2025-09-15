@@ -21,10 +21,16 @@ runs:
       with:
         python-version: ${{ matrix.python }}
 
-    - name: Install database deps
+    - name: Install deps
       shell: bash
       run: |
         pip install -r requirements_dev.txt
+
+    - name: Install database deps
+      if: ${{ !inputs.database_enabled }}
+      shell: bash
+      run: |
+        pip install -r requirements_dev_database.txt
 
     - name: Build wheel and install
       shell: bash

@@ -10,9 +10,6 @@ pkginfo
 setuptools
 wheel
 
-# db 
-# pymongo
-
 # Code Quality
 ruff; python_version >= "3.0"
 mypy[faster-cache]>=1.12; python_version >= "3.0"
